@@ -95,13 +95,6 @@ packages:
       relative: true
     source: path
     version: "0.1.1+1"
-  platform:
-    dependency: transitive
-    description:
-      name: platform
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1"
   sky_engine:
     dependency: transitive
     description: flutter

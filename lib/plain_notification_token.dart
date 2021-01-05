@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:platform/platform.dart';
 
 /// Utility class to get token to send push notification for Flutter.
 ///
@@ -10,19 +10,16 @@ import 'package:platform/platform.dart';
 class PlainNotificationToken {
   static PlainNotificationToken _instance;
   final MethodChannel _channel;
-  final Platform _platform;
 
-  PlainNotificationToken._(MethodChannel channel, Platform platform)
-      : _channel = channel,
-        _platform = platform {
+  PlainNotificationToken._(MethodChannel channel)
+      : _channel = channel {
     _channel.setMethodCallHandler(_handleMethod);
   }
 
   factory PlainNotificationToken() =>
       _instance ??
       (_instance = PlainNotificationToken._(
-          const MethodChannel('plain_notification_token'),
-          const LocalPlatform()));
+          const MethodChannel('plain_notification_token')));
 
   final StreamController<String> _tokenStreamController =
       StreamController<String>.broadcast();
@@ -47,7 +44,7 @@ class PlainNotificationToken {
   /// Does nothing on Android.
   void requestPermission(
       [IosNotificationSettings settings = const IosNotificationSettings()]) {
-    if (_platform.isAndroid) return;
+    if (Platform.isAndroid) return;
 
     _channel.invokeMethod("requestPermission", settings.toMap());
   }
